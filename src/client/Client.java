@@ -2,6 +2,9 @@ package client;
 
 import client.gui.MainFrame;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
@@ -23,7 +26,7 @@ public class Client {
             //GUI
             mf = new MainFrame(this);
         }
-        catch(IOException e){
+        catch(Exception e){
             closeEverything(socket, bufferedReader, bufferedWriter);
         }
     }
@@ -72,7 +75,7 @@ public class Client {
         }
     }
 
-    public void sendStartMessage(String message){
+    public void sendMessage(String message){
         try{
             bufferedWriter.write(message);
             bufferedWriter.newLine();
@@ -84,7 +87,6 @@ public class Client {
     }
 
     public static void main(String[] args) throws IOException {
-
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your username: ");
         String username = scanner.nextLine();
