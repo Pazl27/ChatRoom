@@ -52,7 +52,8 @@ public class ClientHandler implements Runnable{
         for(ClientHandler clientHandler : clientHandlers){
             try{
                 if(!clientHandler.clientName.equals(clientName)){
-                    clientHandler.bufferedWriter.write(this.color +message +Colors.RESET);
+                    //clientHandler.bufferedWriter.write(this.color +message +Colors.RESET);
+                    clientHandler.bufferedWriter.write(clientName+": "+message);
                     clientHandler.bufferedWriter.newLine();
                     clientHandler.bufferedWriter.flush();
                 }
@@ -65,7 +66,7 @@ public class ClientHandler implements Runnable{
 
     public void removeClientHandler(){
         clientHandlers.remove(this);
-        broadcastMessage("server", clientName + " has left the chat");
+        broadcastMessage("server: ", clientName + " has left the chat");
     }
 
     public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter){
