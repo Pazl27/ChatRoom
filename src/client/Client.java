@@ -13,7 +13,6 @@ public class Client {
     public BufferedWriter bufferedWriter; //public for now
     public String username; //public for now
     private MainFrame mf;
-    public String message;
 
     public Client(Socket socket, String username){
         try {
@@ -22,47 +21,18 @@ public class Client {
             this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.username = username;
             //GUI
-            //mf = new MainFrame(this);
+            mf = new MainFrame(this);
         }
         catch(IOException e){
             closeEverything(socket, bufferedReader, bufferedWriter);
         }
     }
 
-    public void sendMessage(){
+    public void sendStartMessage(){
         try{
             bufferedWriter.write(username);
             bufferedWriter.newLine();
             bufferedWriter.flush();
-
-            Scanner scanner = new Scanner(System.in);
-            while(socket.isConnected()){
-
-                //Without GUI
-                String message = scanner.nextLine();
-                bufferedWriter.write(message);
-                bufferedWriter.newLine();
-                bufferedWriter.flush();
-                //mf.displayMessage("You: "+message);
-
-                //With GUI Ideea
-                /**
-                if(!message.isEmpty()) {
-                    bufferedWriter.write(message);
-                    bufferedWriter.newLine();
-                    bufferedWriter.flush();
-                }
-
-
-                String message = mf.getMessage();
-                if(!message.isEmpty()){
-                    bufferedWriter.write(username +": " +message);
-                    bufferedWriter.newLine();
-                    bufferedWriter.flush();
-                    mf.displayMessage("You: "+message);
-                }
-                 */
-            }
         }
         catch(IOException e){
             closeEverything(socket, bufferedReader, bufferedWriter);
@@ -76,8 +46,7 @@ public class Client {
             while(socket.isConnected()){
                 try{
                     messageFromChat = bufferedReader.readLine();
-                    //mf.displayMessage(messageFromChat);
-                    System.out.println(messageFromChat);
+                    mf.displayMessage(messageFromChat);
                 }
                 catch(IOException e){
                     closeEverything(socket, bufferedReader, bufferedWriter);
@@ -103,6 +72,17 @@ public class Client {
         }
     }
 
+    public void sendStartMessage(String message){
+        try{
+            bufferedWriter.write(message);
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+        }
+        catch(IOException e){
+            closeEverything(socket, bufferedReader, bufferedWriter);
+        }
+    }
+
     public static void main(String[] args) throws IOException {
 
         Scanner scanner = new Scanner(System.in);
@@ -110,7 +90,7 @@ public class Client {
         String username = scanner.nextLine();
         Socket socket = new Socket("localhost", 1234);
         Client client = new Client(socket, username);
+        client.sendStartMessage();
         client.listenForMessage();
-        client.sendMessage();
     }
 }
