@@ -1,6 +1,6 @@
-package Server;
+package server;
 
-import Common.Colors;
+import common.Colors;
 
 import java.io.*;
 import java.net.Socket;
@@ -23,7 +23,7 @@ public class ClientHandler implements Runnable{
             this.clientName = bufferedReader.readLine();
             clientHandlers.add(this);
             this.color = Colors.getRandomColor();
-            broadcastMessage("Server", clientName + " has joined the chat");
+            broadcastMessage("server", clientName + " has joined the chat");
         }
         catch (IOException e){
             closeEverything(socket, bufferedReader, bufferedWriter);
@@ -65,7 +65,7 @@ public class ClientHandler implements Runnable{
 
     public void removeClientHandler(){
         clientHandlers.remove(this);
-        broadcastMessage("Server", clientName + " has left the chat");
+        broadcastMessage("server", clientName + " has left the chat");
     }
 
     public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter){

@@ -1,6 +1,4 @@
-package Client;
-
-import Common.Colors;
+package client;
 
 import java.io.*;
 import java.net.Socket;
